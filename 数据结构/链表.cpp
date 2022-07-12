@@ -6,24 +6,35 @@ typedef struct linkList {
 	linkList *address;
 };
 
+typedef struct dlinkList {
+	dlinkList *forward;
+	int data;
+	dlinkList* next;
+};
+
 linkList *linkListInit(linkList *head);//初始化链表
 linkList *relinkListInit(linkList *head);
 void linkListDiplay(linkList *head);//输出链表
 void linkListInsert(linkList *head, int position, int data);//插入一个节点
 void linkListDeleteNode(linkList *head, int position);//删除一个节点
 void deletelinkList(linkList *head);//删除链表
+dlinkList *dlinkListInte(dlinkList* head);
+void dlinkListDiplay(dlinkList* head);//输出链表
 
 int main() {
 	linkList *link;
 	link = new linkList;
+	dlinkList* dlink;
+	dlink = new dlinkList;
 	linkListInit(link);
 	linkListDiplay(link);
 	//linkListInsert(link, 3, 22);
-	linkListDeleteNode(link, 2);
-	linkListDiplay(link);
-	deletelinkList(link);
-	linkListDiplay(link);
-
+	//linkListDeleteNode(link, 2);
+	//linkListDiplay(link);
+	//deletelinkList(link);
+	//linkListDiplay(link);
+	dlinkListInte(dlink);
+	dlinkListDiplay(dlink);
 	system("pause");
 	return 0;
 }
@@ -151,4 +162,66 @@ linkList *relinkListInit(linkList *head) {
 	}
 
 	return head;
+}
+
+dlinkList *dlinkListInte(dlinkList* head) {
+	int cnt;
+	dlinkList* pr = NULL;
+	dlinkList* temp;
+	cout << "请输入初始链表数据个数" << endl;
+	cin >> cnt;
+	for (int i = 0; i < cnt; i++) {
+		int data;
+		temp = new dlinkList;
+
+		cout << "请输入第" << (i + 1) << "个数据" << endl;
+		cin >> data;
+		if (i == 0) {
+			head->next = temp;
+			head->forward = NULL;
+			temp->data = data;
+			temp->forward = head;
+			pr = temp;
+		}
+		else if (i != 0 && i != cnt - 1)
+		{
+			temp->data = data;
+			pr->next = temp;
+			temp->forward = pr;
+			pr = temp;
+		}
+		else {
+			temp->data = data;
+			temp->next = NULL;
+			temp->forward = pr;
+			pr->next = temp;
+		}
+
+		//delete temp;
+	}
+
+	return head;
+}
+
+void dlinkListDiplay(dlinkList* head) {
+	dlinkList* pr = head;
+	if (pr->next == NULL) {
+		cout << "no linkList\n" << endl;
+		return;
+	}
+	dlinkList* temp;
+	temp = pr;
+	bool state = true;
+	while (true)
+	{
+
+		temp = pr->next;
+		cout << temp->data;
+		pr = temp;
+		if (pr->next == NULL) {
+			cout << "\n" << endl;
+			break;
+		}
+		cout << "<->";
+	}
 }
